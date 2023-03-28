@@ -1,0 +1,35 @@
+import java.util.*;
+
+public class MusicPlayer {
+
+    private  int capacity;
+    private  Map<String, LinkedHashMap<String, Long>> store;
+
+    public MusicPlayer (int capacity) {
+        this.capacity = capacity;
+        this.store = new LinkedHashMap<>();
+    }
+
+    public void addSong(String song, String user, long timestamp) {
+        LinkedHashMap<String, Long> userMap = store.get(user);
+        if (userMap == null) 
+{
+            userMap = new LinkedHashMap<>();
+            store.put(user, userMap);
+        }
+        userMap.put(song, timestamp);
+        
+        if (userMap.size() > capacity) {
+            userMap.remove(userMap.keySet().iterator().next());
+        }
+    }
+
+    public void getRecentSongs(String user) {
+        LinkedHashMap<String, Long> userMap = store.get(user);
+        if (userMap != null) {
+            for (String song : userMap.keySet()) {
+                System.out.println(song);
+            }
+        }
+    }
+}
